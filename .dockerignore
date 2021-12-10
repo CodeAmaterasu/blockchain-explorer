@@ -1,0 +1,5 @@
+*.md
+LICENSE
+./.git
+Dockerfile
+docker-compose.yml
