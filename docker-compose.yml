@@ -7,3 +7,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "10500:80"
+    healthcheck:
+      test: curl --fail -s http:\\danilojakob.ch:10500 || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
