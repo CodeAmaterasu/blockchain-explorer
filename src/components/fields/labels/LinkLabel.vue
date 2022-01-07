@@ -1,16 +1,13 @@
 <template>
-  <a :href="url">
-    <ItalicLabel :text="text"></ItalicLabel>
+  <a :href="url" class="primary-color link">
+  {{ this.text }}
   </a>
 </template>
 
 <script>
-import ItalicLabel from './ItalicLabel';
-
 export default {
-  name: "ItalicLinkLabel",
+  name: "LinkLabel",
   components: {
-    ItalicLabel
   },
   props: {
     text: {
@@ -27,7 +24,7 @@ export default {
 
 <style scoped>
   a {
-    color: #FFBF84;
-    font-family: 'Poppins-Italic';
+    font-family: 'Poppins-LightItalic';
+    font-size: 15px;
   }
 </style>

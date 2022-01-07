@@ -1,10 +1,10 @@
 <template>
-  <h1 class="title">{{ this.text }}</h1>
+  <button type="submit" action="submit" class="primary-background white-color button">{{ this.text }}</button>
 </template>
 
 <script>
 export default {
-  name: "TitleLabel",
+  name: "SubmitButton",
   props: {
     text: {
       type: String,
@@ -15,8 +15,5 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-    font-family: 'Poppins-SemiBold';
-    font-size: 25px;
-}
+
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <p>{{ this.text }}</p>
+  <button class="warning-background white-color button">{{ this.text }}</button>
 </template>
 
 <script>
 export default {
-  name: "ItalicLabel",
+  name: "CancelButton",
   props: {
     text: {
       type: String,
@@ -15,9 +15,5 @@ export default {
 </script>
 
 <style scoped>
-p {
-  margin: 0;
-  padding: 0;
-  font-style: italic;
-}
+
 </style>

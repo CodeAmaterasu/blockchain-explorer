@@ -1,10 +1,12 @@
 <template>
-  <h1 class="title">{{ this.text }}</h1>
+  <p class="regular">{{ this.text }}</p>
 </template>
 
 <script>
 export default {
-  name: "TitleLabel",
+  name: "DefaultLabel",
+  components: {
+  },
   props: {
     text: {
       type: String,
@@ -15,8 +17,8 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-    font-family: 'Poppins-SemiBold';
-    font-size: 25px;
-}
+  p {
+    font-family: 'Poppins-Regular';
+    font-size: 15px;
+  }
 </style>
