@@ -1,14 +1,20 @@
 <template>
-  <p class="regular">{{ this.text }}</p>
+  <p><a :href="url" class="primary-color link">
+  {{ this.text }}
+  </a></p>
 </template>
 
 <script>
 export default {
-  name: "DefaultLabel",
+  name: "LinkLabel",
   components: {
   },
   props: {
     text: {
+      type: String,
+      required: true
+    },
+    url: {
       type: String,
       required: true
     }
@@ -17,8 +23,8 @@ export default {
 </script>
 
 <style scoped>
-  p {
-    font-family: 'Poppins-Regular';
+  a {
+    font-family: 'Poppins-LightItalic';
     font-size: 15px;
   }
 </style>

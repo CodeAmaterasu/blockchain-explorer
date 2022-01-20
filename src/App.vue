@@ -4,14 +4,22 @@
   <DefaultLabel text="Default Label" />
   <SubmitButton text="Rectangle Button" />
   <CancelButton text="Cancel Button" />
+  <Navigation  />
+  <WhiteboardHome/>
+  <TransactionInfo to="Danilo" from="Daniloo" amount="25.8" signatur="greetings"/>
+  <TransactionInfo to="Danilo" from="Daniloo" amount="25.8" signatur="greetings"/>
+  <TransactionInfo to="Danilodfdsf" from="dfudn ndsd" amount="25.8" signatur="greetsdadings"/>
 </template>
 
 <script>
-import LinkLabel from './components/fields/labels/LinkLabel.vue'
-import TitleLabel from './components/fields/labels/TitleLabel.vue'
-import DefaultLabel from './components/fields/labels/DefaultLabel.vue'
-import SubmitButton from './components/fields/buttons/SubmitButton.vue'
-import CancelButton from './components/fields/buttons/CancelButton.vue'
+import LinkLabel from './components/base/labels/LinkLabel.vue'
+import TitleLabel from './components/base/labels/TitleLabel.vue'
+import DefaultLabel from './components/base/labels/DefaultLabel.vue'
+import CancelButton from './components/base/buttons/CancelButton.vue'
+import SubmitButton from './components/base/buttons/SubmitButton.vue'
+import Navigation from './components/Navigation.vue'
+import WhiteboardHome from './components/whiteboard/WhiteboardHome.vue'
+import TransactionInfo from './components/transaction/TransactionInfo.vue'
 
 export default {
   name: 'App',
@@ -20,7 +28,12 @@ export default {
     TitleLabel,
     DefaultLabel,
     SubmitButton,
-    CancelButton
+    CancelButton,
+    Navigation,
+    WhiteboardHome,
+    TransactionInfo
+  },
+  data() {
   }
 }
 </script>
@@ -104,6 +117,11 @@ export default {
 @font-face {
   font-family: "Poppins-SemiBold";
   src: local("Poppins-SemiBold"),   url(./fonts/Poppins-SemiBold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins-Bold";
+  src: local("Poppins-Bold"),   url(./fonts/Poppins-Bold.ttf) format("truetype");
 }
 
 @font-face {
