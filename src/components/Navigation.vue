@@ -1,5 +1,5 @@
 <template>
-  <div id="nav" class="secondary-background">
+  <div id="nav" class="background-color-primary">
     <ApplicationLogo />
   </div>
 </template>
