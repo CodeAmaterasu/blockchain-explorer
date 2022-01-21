@@ -43,8 +43,9 @@ export default {
 
 #container {
     display: flex;
-    border-radius: 5px;
+    border-radius: 10px;
     background: #E8E8E8;
+  padding: 15px 20px;
 }
 div {
     flex-grow: 1;
@@ -53,8 +54,7 @@ div {
     display: flex;
 }
 
-LinkLabel {
-    display: flex;
-    justify-content: flex-start;
+p {
+  margin: auto 0;
 }
 </style>
