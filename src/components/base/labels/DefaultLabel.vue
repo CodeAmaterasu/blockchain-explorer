@@ -1,5 +1,5 @@
 <template>
-  <p class="regular">{{ this.text }} </p>
+  <p class="regular color-lightgrey">{{ this.text }} </p>
 </template>
 
 <script>

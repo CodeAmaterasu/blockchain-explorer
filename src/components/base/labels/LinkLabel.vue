@@ -1,5 +1,5 @@
 <template>
-  <p><a :href="url" class="primary-color link">
+  <p><a :href="url" class="color-secondary link">
   {{ this.text }}
   </a></p>
 </template>

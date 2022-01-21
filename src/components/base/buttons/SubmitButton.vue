@@ -1,5 +1,5 @@
 <template>
-  <button type="submit" action="submit" class="primary-background white-color button">{{ this.text }}</button>
+  <button type="submit" action="submit" class="background-color-secondary color-white button">{{ this.text }}</button>
 </template>
 
 <script>
