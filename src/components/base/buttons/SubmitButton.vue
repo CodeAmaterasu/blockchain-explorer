@@ -15,5 +15,7 @@ export default {
 </script>
 
 <style scoped>
-
+button {
+  height: 50px;
+}
 </style>
