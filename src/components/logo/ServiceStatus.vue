@@ -13,6 +13,8 @@ export default {
   width: 20px;
   height: 20px;
   border-radius: 50px;
+
+  box-shadow: inset 0 4px 4px #00000050;
 }
 
 .green {
