@@ -2,8 +2,8 @@
     <div id="container">
         <div><DefaultLabel text="From:" /><LinkLabel url="#" :text="this.from" /></div>
         <div><DefaultLabel text="To:" /> <LinkLabel url="#" :text="this.from" /></div>
-        <div><DefaultLabel text="Amount:" /></div>
-        <div><DefaultLabel text="Signatur:" /></div>
+        <div><DefaultLabel text="Amount:"/><DefaultLabel :text="amount"/></div>
+        <div><DefaultLabel text="Signatur:"/><DefaultLabel :text="signatur"/></div>
     </div>
 </template>
 
