@@ -1,74 +1,86 @@
 <template>
-  <LinkLabel text="Link Label" url="https://www.google.ch"></LinkLabel>
-  <TitleLabel text="Title Label" />
-  <DefaultLabel text="Default Label" />
-  <SubmitButton text="Rectangle Button" />
-  <CancelButton text="Cancel Button" />
   <Navigation  />
-  <WhiteboardHome/>
-  <TransactionInfo to="Danilo" from="Daniloo" amount="25.8" signatur="greetings"/>
-  <TransactionInfo to="Danilo" from="Daniloo" amount="25.8" signatur="greetings"/>
-  <TransactionInfo to="Danilodfdsf" from="dfudn ndsd" amount="25.8" signatur="greetsdadings"/>
+  <div id="site-container">
+    <WhiteboardHome/>
+  </div>
 </template>
 
 <script>
-import LinkLabel from './components/base/labels/LinkLabel.vue'
-import TitleLabel from './components/base/labels/TitleLabel.vue'
-import DefaultLabel from './components/base/labels/DefaultLabel.vue'
-import CancelButton from './components/base/buttons/CancelButton.vue'
-import SubmitButton from './components/base/buttons/SubmitButton.vue'
 import Navigation from './components/Navigation.vue'
 import WhiteboardHome from './components/whiteboard/WhiteboardHome.vue'
-import TransactionInfo from './components/transaction/TransactionInfo.vue'
 
 export default {
   name: 'App',
   components: {
-    LinkLabel,
-    TitleLabel,
-    DefaultLabel,
-    SubmitButton,
-    CancelButton,
     Navigation,
     WhiteboardHome,
-    TransactionInfo
-  },
-  data() {
   }
 }
 </script>
 
 <style>
-.primary-background {
-  background-color: #239A98;
+.color-primary {
+    color: #555;
 }
 
-.primary-color {
+.background-color-primary {
+  background: #555;
+}
+
+.color-secondary {
   color: #239A98;
 }
 
-.secondary-background {
-  background-color: #555555;
+.background-color-secondary {
+  background: #239A98;
 }
 
-.secondary-color {
-  color: #555555;
+.color-grey {
+  color: #E8E8E8;
 }
 
-.warning-background {
-  background-color: #F26F6F;
+.background-color-lightgrey {
+  background: #7D7D7D;
 }
 
-.warning-color {
+.color-lightgrey {
+  color: #7D7D7D;
+}
+
+.background-color-grey {
+  background: #E8E8E8;
+}
+
+.color-background {
+  color: #F1F1F1;
+}
+
+.background-color-background {
+  background: #F1F1F1;
+}
+
+.color-white {
+  color: #FFF;
+}
+
+.background-color-white {
+  background: #FFF;
+}
+
+.color-green {
+  color: #B7FFAB;
+}
+
+.background-color-green {
+  background: #B7FFAB;
+}
+
+.color-red {
   color: #F26F6F;
 }
 
-.white-background {
-  background-color: #F1F1F1;
-}
-
-.white-color {
-  color: #F1F1F1;
+.background-color-red {
+  background: #F26F6F;
 }
 
 .title {
@@ -106,9 +118,36 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
+}
+
+#site-container {
+  display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+  display: -ms-flexbox;  /* TWEENER - IE 10 */
+  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+  display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+
+  flex-direction: column;
+  align-items: center;
+}
+
+body {
+  margin: 0;
   background: #F1F1F1;
 }
+
+.box-shadow {
+  box-shadow: 0 4px 4px #00000025;
+}
+
+.border-radius {
+  border-radius: 10px;
+}
+
+html {
+  background: #F1F1F1;
+}
+
 @font-face {
   font-family: "Poppins-Regular";
   src: local("Poppins-Regular"),   url(./fonts/Poppins-Regular.ttf) format("truetype");
