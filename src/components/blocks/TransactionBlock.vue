@@ -13,7 +13,7 @@ import LinkLabel from './../base/labels/LinkLabel.vue'
 import DefaultLabel from './../base/labels/DefaultLabel.vue'
 
 export default {
-  name: "Navigation",
+  name: "TransactionBlock",
   components: {
     LinkLabel,
     DefaultLabel,
