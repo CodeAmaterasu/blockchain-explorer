@@ -1,5 +1,5 @@
 <template>
-  <button class="warning-background white-color button">{{ this.text }}</button>
+  <button class="background-color-red color-white button">{{ this.text }}</button>
 </template>
 
 <script>
@@ -15,5 +15,7 @@ export default {
 </script>
 
 <style scoped>
-
+.button:hover {
+  background: #d92d2d;
+}
 </style>
