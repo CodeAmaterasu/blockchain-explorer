@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div>
     <p id="upper-part">Blockchain</p>
     <div id="test">
       <div id="status">
@@ -23,9 +23,6 @@ export default {
 </script>
 
 <style scoped>
-#container {
-  padding: 10px 20px;
-}
 #upper-part {
   color: #F1F1F1;
   font-size:35px;
