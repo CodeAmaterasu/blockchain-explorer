@@ -1,19 +1,17 @@
 <template>
   <Navigation  />
   <div id="site-container">
-    <WhiteboardHome/>
+    <router-view />
   </div>
 </template>
 
 <script>
 import Navigation from './components/Navigation.vue'
-import WhiteboardHome from './components/whiteboard/WhiteboardHome.vue'
 
 export default {
   name: 'App',
   components: {
-    Navigation,
-    WhiteboardHome,
+    Navigation
   }
 }
 </script>
