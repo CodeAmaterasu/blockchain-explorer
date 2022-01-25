@@ -18,7 +18,7 @@
             <TitleLabel class="left-alignment" :text="title" />
             <DefaultLabel v-if="this.isSearch" class="left-alignment color-lightgrey small-label" :text="searchedAddress" />
           </div>
-          <SubmitButton v-if="!this.isSearch" text="New Transaction +" />
+          <SubmitButton v-if="!this.isSearch" text="New Transaction +" @click="showModal" />
         </div>
         <div id="transaction-container">
           <div class="transaction-element">
@@ -73,14 +73,50 @@
       </div>
     </div>
   </div>
+
+  <ModalBox
+      v-show="isModalVisible"
+      @close="closeModal">
+    <template v-slot:body>
+      <div id="modal-container">
+        <TitleLabel text="New Transaction" />
+        <div class="form-margin form-margin-top">
+          <label>Wallet</label>
+          <div class="input-group mb-3">
+            <select class="custom-select" id="inputGroupSelect01">
+              <option selected>Choose...</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+          <div class="form-group form-margin">
+            <label>Destination</label>
+            <input type="text" class="form-control" placeholder="0.0">
+          </div>
+          <div class="form-group form-margin form-margin-bottom">
+            <label>Amount</label>
+            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="0.0">
+          </div>
+        </div>
+        <div id="action-container">
+          <CancelButton id="cancel-button" text="Cancel" @click="closeModal" />
+          <SubmitButton text="Send" @click="closeModal" />
+        </div>
+      </div>
+    </template>
+  </ModalBox>
+
 </template>
 
 <script>
 
-import TransactionInfo from './../transaction/TransactionInfo.vue'
+import TransactionInfo from '../blocks/TransactionBlock.vue'
 import TitleLabel from "../base/labels/TitleLabel";
+import CancelButton from "@/components/base/buttons/CancelButton";
 import SubmitButton from "../base/buttons/SubmitButton";
 import DefaultLabel from "../base/labels/DefaultLabel";
+import ModalBox from "@/components/base/ModalBox";
 
 export default {
   name: "Navigation",
@@ -88,14 +124,17 @@ export default {
     DefaultLabel,
     SubmitButton,
     TitleLabel,
-    TransactionInfo
+    TransactionInfo,
+    CancelButton,
+    ModalBox
   },
   data() {
     return {
       isSearch: false,
       title: "Unprocessed Blocks",
       searchFieldValue: "",
-      searchedAddress: ""
+      searchedAddress: "",
+      isModalVisible: false
     }
   },
   methods: {
@@ -109,6 +148,12 @@ export default {
         this.isSearch = false
         this.title = "Unprocessed Blocks"
       }
+    },
+    showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
     }
   }
 }
@@ -139,8 +184,66 @@ export default {
   padding-top: 20px;
 }
 
-.search-container {
+#transaction-container {
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align:justify;
+  margin-top: 20px;
+  height: 799px;
+}
+
+.inner-whiteboard {
+  padding: 10px 30px;
+}
+
+.transaction-element {
+  margin-bottom: 20px;
+}
+
+.form-margin {
+  margin: 15px 0;
+}
+
+.form-margin-top {
+  margin-top: 30px;
+}
+
+.form-margin-bottom {
+  margin-bottom: 30px;
+}
+
+#action-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.small-label {
+  font-size: 14px;
+}
+
+#cancel-button {
+  margin-right: 25px;
+}
+
+.whiteboard-site {
+  width: 1160px;
   margin-top: 90px;
+  margin-bottom: 30px;
+}
+
+.content-container {
+  border-radius: 10px;
+  height: 900px;
+}
+
+.titlebar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.search-container {
   margin-bottom: 30px;
   width: 100%;
 }
@@ -148,7 +251,7 @@ export default {
 #transaction-container {
   overflow-x: hidden;
   overflow-y: auto;
-  text-align:justify;
+  text-align: justify;
   margin-top: 20px;
   height: 799px;
 }
