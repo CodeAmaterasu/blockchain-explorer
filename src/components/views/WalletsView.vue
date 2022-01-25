@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ApplicationLogo from './../Logo/Logo.vue'
+import ApplicationLogo from '../logo/Logo.vue'
 
 export default {
   name: "Navigation",

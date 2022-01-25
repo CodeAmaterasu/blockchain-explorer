@@ -77,7 +77,7 @@
 
 <script>
 
-import TransactionInfo from './../transaction/TransactionInfo.vue'
+import TransactionInfo from '../transaction/TransactionInfo.vue'
 import TitleLabel from "../base/labels/TitleLabel";
 import SubmitButton from "../base/buttons/SubmitButton";
 import DefaultLabel from "../base/labels/DefaultLabel";
