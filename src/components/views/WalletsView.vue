@@ -11,10 +11,9 @@
             <SubmitButton text="New Wallet +" @click="showNewWalletModal"/>
           </div>
         </div>
-
         <div id="transaction-container">
-          <div className="transaction-element">
-            <WalletBlock class="box-shadow" signature="HGdgjkkjjsdyjoiysjoiesgnsuiduifHGdgjkkjjsdyjoiysjoiesgnsuiduifHGdgjkkjjsdyjoiysjoiesgnsuiduif" balance="253.32"/>
+          <div className="transaction-element" v-for="wallet in this.wallets" :key="wallet.name">
+            <WalletBlock class="box-shadow" :name="wallet.name" :balance="this.balances[wallet.name].balance"/>
           </div>
         </div>
       </div>
@@ -58,12 +57,12 @@
         <div class="form-margin form-margin-top">
           <div class="form-group form-margin">
             <label>Name</label>
-            <input type="text" class="form-control" placeholder="Robert">
+            <input type="text" v-model="this.newWalletName" class="form-control" placeholder="Robert">
           </div>
         </div>
         <div class="action-container">
           <CancelButton id="cancel-button" text="Cancel" @click="closeNewWalletModal" />
-          <SubmitButton text="Send" @click="showNewWalletModal" />
+          <SubmitButton text="Send" @click="createNewWallet" />
         </div>
       </div>
     </template>
@@ -77,6 +76,7 @@ import TitleLabel from "../base/labels/TitleLabel";
 import SubmitButton from "../base/buttons/SubmitButton";
 import CancelButton from "@/components/base/buttons/CancelButton";
 import ModalBox from "@/components/base/ModalBox";
+import WalletService from "@/service/WalletService";
 
 export default {
   name: "WalletsView",
@@ -94,20 +94,49 @@ export default {
       searchFieldValue: "",
       searchedAddress: "",
       isNewWalletModalVisible: false,
-      isImportModalVisible: false
+      isImportModalVisible: false,
+      newWalletName: "",
+      wallets: [],
+      walletService: WalletService,
+      balances: []
     }
   },
+  created() {
+    this.wallets = JSON.parse(localStorage.getItem('wallets'))
+    this.walletService = new WalletService()
+
+    console.log(this.wallets)
+
+    for(let wallet of this.wallets) {
+      this.getBalance(wallet.publicKey, wallet.name)
+    }
+    console.log(this.balances);
+  },
   methods: {
-    searchAddress() {
-      if (this.searchFieldValue) {
-        this.searchedAddress = this.searchFieldValue
-        this.isSearch = true
-        this.title = "Related Transactions"
-      } else {
-        this.searchedAddress = ""
-        this.isSearch = false
-        this.title = "Unprocessed Blocks"
+    getBalance(publicKey, walletName) {
+      this.walletService.getBalance(publicKey).then(data => {
+        this.balances[walletName] = {
+          balance: data.balance
+        }
+      })
+    },
+    createNewWallet() {
+      const walletService = new WalletService()
+      this.isNewWalletModalVisible = false
+      if (localStorage.getItem('wallets') == null) {
+        localStorage.setItem('wallets', JSON.stringify([]))
       }
+      let wallets = JSON.parse(localStorage.getItem('wallets'))
+
+      walletService.create(this.newWalletName).then( response => {
+        wallets.push({
+          name: response.data.wallet_name,
+          publicKey: response.data.public_key,
+          privateKey: response.data.private_key,
+        })
+        this.wallets = wallets
+        localStorage.setItem('wallets', JSON.stringify(wallets))
+      })
     },
     showImportModal() {
       this.isImportModalVisible = true

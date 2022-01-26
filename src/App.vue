@@ -1,7 +1,8 @@
 <template>
   <Navigation  />
   <div id="site-container">
-    <router-view />
+    <router-view>
+    </router-view>
   </div>
 </template>
 
@@ -148,22 +149,22 @@ html {
 
 @font-face {
   font-family: "Poppins-Regular";
-  src: local("Poppins-Regular"),   url(./fonts/Poppins-Regular.ttf) format("truetype");
+  src: local("Poppins-Regular"),   url(assets/fonts/Poppins-Regular.ttf) format("truetype");
 }
 
 @font-face {
   font-family: "Poppins-SemiBold";
-  src: local("Poppins-SemiBold"),   url(./fonts/Poppins-SemiBold.ttf) format("truetype");
+  src: local("Poppins-SemiBold"),   url(assets/fonts/Poppins-SemiBold.ttf) format("truetype");
 }
 
 @font-face {
   font-family: "Poppins-Bold";
-  src: local("Poppins-Bold"),   url(./fonts/Poppins-Bold.ttf) format("truetype");
+  src: local("Poppins-Bold"),   url(assets/fonts/Poppins-Bold.ttf) format("truetype");
 }
 
 @font-face {
   font-family: "Poppins-LightItalic";
-  src: local("Poppins-LightItalic"),   url(./fonts/Poppins-LightItalic.ttf) format("truetype");
+  src: local("Poppins-LightItalic"),   url(assets/fonts/Poppins-LightItalic.ttf) format("truetype");
 }
 
 </style>

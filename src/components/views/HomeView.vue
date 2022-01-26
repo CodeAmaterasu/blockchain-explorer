@@ -21,53 +21,8 @@
           <SubmitButton v-if="!this.isSearch" text="New Transaction +" @click="showModal" />
         </div>
         <div id="transaction-container">
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
+          <div class="transaction-element" v-for="block in this.unprocessedBlocks" :key="block.signature">
+            <TransactionInfo class="box-shadow" :signatur="block.signature" :amount="block.amount" :to="block.destination" :from="block.origin" />
           </div>
         </div>
       </div>
@@ -83,25 +38,22 @@
         <div class="form-margin form-margin-top">
           <label>Wallet</label>
           <div class="input-group mb-3">
-            <select class="custom-select" id="inputGroupSelect01">
-              <option selected>Choose...</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <select class="custom-select" id="inputGroupSelect01" v-model="selectedPublicKey">
+              <option :value="wallet.publicKey" v-for="wallet in wallets" :key="wallet.name">{{wallet.name}}</option>
             </select>
           </div>
           <div class="form-group form-margin">
             <label>Destination</label>
-            <input type="text" class="form-control" placeholder="0.0">
+            <input v-model="destination" type="text" class="form-control" placeholder="0.0">
           </div>
           <div class="form-group form-margin form-margin-bottom">
             <label>Amount</label>
-            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="0.0">
+            <input v-model="amount" type="text" class="form-control" aria-describedby="emailHelp" placeholder="0.0">
           </div>
         </div>
         <div id="action-container">
           <CancelButton id="cancel-button" text="Cancel" @click="closeModal" />
-          <SubmitButton text="Send" @click="closeModal" />
+          <SubmitButton text="Send" @click="sendTransaction" />
         </div>
       </div>
     </template>
@@ -117,6 +69,9 @@ import CancelButton from "@/components/base/buttons/CancelButton";
 import SubmitButton from "../base/buttons/SubmitButton";
 import DefaultLabel from "../base/labels/DefaultLabel";
 import ModalBox from "@/components/base/ModalBox";
+import ChainService from "@/service/ChainService";
+import BlockService from "@/service/BlockService";
+
 
 export default {
   name: "Navigation",
@@ -134,8 +89,25 @@ export default {
       title: "Unprocessed Blocks",
       searchFieldValue: "",
       searchedAddress: "",
-      isModalVisible: false
+      isModalVisible: false,
+
+      wallets: [],
+      destination: String,
+      amount: String,
+      selectedPublicKey: String,
+
+      unprocessedBlocks: []
     }
+  },
+  created() {
+    let chainService = new ChainService()
+    let serviceResponse = chainService.getOpenChain()
+
+    serviceResponse.then(response => {
+        this.unprocessedBlocks = response.data.chain
+    })
+
+    this.wallets = JSON.parse(localStorage.getItem('wallets'))
   },
   methods: {
     searchAddress() {
@@ -143,6 +115,11 @@ export default {
         this.searchedAddress = this.searchFieldValue
         this.isSearch = true
         this.title = "Related Transactions"
+        const blockService = new BlockService()
+        blockService.getBlocks(this.searchedAddress).then(response => {
+          console.log(response.data)
+          this.unprocessedBlocks = response.data
+        })
       } else {
         this.searchedAddress = ""
         this.isSearch = false
@@ -152,8 +129,23 @@ export default {
     showModal() {
       this.isModalVisible = true;
     },
+    sendTransaction() {
+      this.isModalVisible = false;
+      const blockService = new BlockService()
+      blockService.createBlock({
+        origin: this.selectedPublicKey,
+        destination: this.destination,
+        amount: this.amount
+      })
+    },
+    getUnprocessedBlocks() {
+
+    },
     closeModal() {
       this.isModalVisible = false;
+    },
+    onChange(value) {
+      this.selectedPublicKey = value
     }
   }
 }

@@ -1,9 +1,8 @@
 <template>
     <div id="container">
-        <div><DefaultLabel text="From:" /><LinkLabel url="#" :text="this.from" /></div>
-        <div><DefaultLabel text="To:" /> <LinkLabel url="#" :text="this.from" /></div>
-        <div><DefaultLabel text="Amount:"/><DefaultLabel :text="amount"/></div>
-        <div><DefaultLabel text="Signatur:"/><DefaultLabel :text="signatur"/></div>
+        <div class="from-item"><DefaultLabel text="Origin:" /><LinkLabel class="overflow-ellipses" url="#" :text="this.from" /></div>
+        <div class="to-item"><DefaultLabel text="Destination:" /> <LinkLabel class="overflow-ellipses" url="#" :text="this.to" /></div>
+        <div class="amount-item"><DefaultLabel text="Amount:"/><DefaultLabel :text="amount"/></div>
     </div>
 </template>
 
@@ -45,10 +44,22 @@ export default {
     display: flex;
     border-radius: 10px;
     background: #E8E8E8;
-  padding: 15px 20px;
+    padding: 15px 20px;
+}
+.from-item, .to-item {
+  width: 450px;
+  margin-right: 20px;
+}
+
+.amount-item {
+}
+
+.overflow-ellipses {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 div {
-    flex-grow: 1;
     margin: 0;
     padding: 0;
     display: flex;
