@@ -21,53 +21,8 @@
           <SubmitButton v-if="!this.isSearch" text="New Transaction +" @click="showModal" />
         </div>
         <div id="transaction-container">
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
-          </div>
-          <div class="transaction-element">
-            <TransactionInfo class="box-shadow" signatur="HGdgjkkjjsdyjoiysjoiesgnsuiduif" amount="253.32" to="Danilo" from="Gölan" />
+          <div class="transaction-element" v-for="block in this.unprocessedBlocks" :key="block.signature">
+            <TransactionInfo class="box-shadow" :signatur="block.signature" :amount="block.amount" :to="block.destination" :from="block.origin" />
           </div>
         </div>
       </div>
@@ -117,6 +72,9 @@ import CancelButton from "@/components/base/buttons/CancelButton";
 import SubmitButton from "../base/buttons/SubmitButton";
 import DefaultLabel from "../base/labels/DefaultLabel";
 import ModalBox from "@/components/base/ModalBox";
+import ChainService from "@/service/ChainService";
+import BlockService from "@/service/BlockService";
+
 
 export default {
   name: "Navigation",
@@ -134,8 +92,24 @@ export default {
       title: "Unprocessed Blocks",
       searchFieldValue: "",
       searchedAddress: "",
-      isModalVisible: false
+      isModalVisible: false,
+
+      unprocessedBlocks: []
     }
+  },
+  created() {
+    let chainService = new ChainService()
+    let blockService = new BlockService()
+    let serviceResponse = chainService.getOpenChain()
+
+    serviceResponse.then(response => {
+        this.unprocessedBlocks = response.data.chain
+    })
+    console.log(blockService.createBlock({
+      origin: "nAvqJmZAJUhBYxktpQkRvRJlY8jLILQxle0O5kBKb4RnBW81hO5lSdmF7yclw278ZTTWnX4mMbamnXAHXP6mrQ==",
+      destination: "q0rMuXYSuB5xId7TXAk3Qad+VU0PxnYkF6Qw9bmx3+ZmjH2nDlo9s2Tad7y3O8mIdz+Hwe3LnqH1lHXIRN7bmg==",
+      amount: 230
+    }))
   },
   methods: {
     searchAddress() {
@@ -154,6 +128,9 @@ export default {
     },
     closeModal() {
       this.isModalVisible = false;
+    },
+    getUnprocessedBlocks() {
+
     }
   }
 }
