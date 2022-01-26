@@ -12,9 +12,8 @@ class BlockService {
         let bitcoinMessage = require('bitcoinjs-message')
 
         const keypair = bitcoin.ECPair.fromPrivateKey(this.fromHexString("b710c6602eb1555064613148eabbcbdcdd1ea5963813fb6c9474f2ce689e1dcc"));
-        const privateKey = keypair.privateKey;
         const message = block.amount.toString();
-        const signature = bitcoinMessage.sign(message, privateKey, keypair.compressed);
+        const signature = bitcoinMessage.sign(message, keypair.privateKey);
 
         return axios.post('https://blockchain.danilojakob.ch/api/create_block/', {
             origin: block.origin,

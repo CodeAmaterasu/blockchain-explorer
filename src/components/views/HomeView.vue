@@ -38,25 +38,22 @@
         <div class="form-margin form-margin-top">
           <label>Wallet</label>
           <div class="input-group mb-3">
-            <select class="custom-select" id="inputGroupSelect01">
-              <option selected>Choose...</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+            <select class="custom-select" id="inputGroupSelect01" v-model="selectedPublicKey">
+              <option :value="wallet.publicKey" v-for="wallet in wallets" :key="wallet.name">{{wallet.name}}</option>
             </select>
           </div>
           <div class="form-group form-margin">
             <label>Destination</label>
-            <input type="text" class="form-control" placeholder="0.0">
+            <input v-model="destination" type="text" class="form-control" placeholder="0.0">
           </div>
           <div class="form-group form-margin form-margin-bottom">
             <label>Amount</label>
-            <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="0.0">
+            <input v-model="amount" type="text" class="form-control" aria-describedby="emailHelp" placeholder="0.0">
           </div>
         </div>
         <div id="action-container">
           <CancelButton id="cancel-button" text="Cancel" @click="closeModal" />
-          <SubmitButton text="Send" @click="closeModal" />
+          <SubmitButton text="Send" @click="sendTransaction" />
         </div>
       </div>
     </template>
@@ -94,22 +91,23 @@ export default {
       searchedAddress: "",
       isModalVisible: false,
 
+      wallets: [],
+      destination: String,
+      amount: String,
+      selectedPublicKey: String,
+
       unprocessedBlocks: []
     }
   },
   created() {
     let chainService = new ChainService()
-    let blockService = new BlockService()
     let serviceResponse = chainService.getOpenChain()
 
     serviceResponse.then(response => {
         this.unprocessedBlocks = response.data.chain
     })
-    console.log(blockService.createBlock({
-      origin: "nAvqJmZAJUhBYxktpQkRvRJlY8jLILQxle0O5kBKb4RnBW81hO5lSdmF7yclw278ZTTWnX4mMbamnXAHXP6mrQ==",
-      destination: "q0rMuXYSuB5xId7TXAk3Qad+VU0PxnYkF6Qw9bmx3+ZmjH2nDlo9s2Tad7y3O8mIdz+Hwe3LnqH1lHXIRN7bmg==",
-      amount: 230
-    }))
+
+    this.wallets = JSON.parse(localStorage.getItem('wallets'))
   },
   methods: {
     searchAddress() {
@@ -126,11 +124,23 @@ export default {
     showModal() {
       this.isModalVisible = true;
     },
-    closeModal() {
+    sendTransaction() {
       this.isModalVisible = false;
+      const blockService = new BlockService()
+      blockService.createBlock({
+        origin: this.selectedPublicKey,
+        destination: this.destination,
+        amount: this.amount
+      })
     },
     getUnprocessedBlocks() {
 
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
+    onChange(value) {
+      this.selectedPublicKey = value
     }
   }
 }
