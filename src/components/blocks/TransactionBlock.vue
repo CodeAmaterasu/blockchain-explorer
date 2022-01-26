@@ -1,7 +1,7 @@
 <template>
     <div id="container">
-        <div class="from-item"><DefaultLabel text="From:" /><LinkLabel class="overflow-ellipses" url="#" :text="this.from" /></div>
-        <div class="to-item"><DefaultLabel text="To:" /> <LinkLabel class="overflow-ellipses" url="#" :text="this.from" /></div>
+        <div class="from-item"><DefaultLabel text="Origin:" /><LinkLabel class="overflow-ellipses" url="#" :text="this.from" /></div>
+        <div class="to-item"><DefaultLabel text="Destination:" /> <LinkLabel class="overflow-ellipses" url="#" :text="this.to" /></div>
         <div class="amount-item"><DefaultLabel text="Amount:"/><DefaultLabel :text="amount"/></div>
     </div>
 </template>
