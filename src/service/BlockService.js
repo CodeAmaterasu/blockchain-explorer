@@ -24,9 +24,9 @@ class BlockService {
     }
 
     getBlocks(walletAddress) {
-        axios.get('https://blockchain.danilojakob.ch/api/get_blocks?wallet_address=' + walletAddress).then(response => (
-            console.log(response)
-        ))
+        return axios.post('https://blockchain.danilojakob.ch/api/get_blocks', {
+            wallet_address: walletAddress
+        })
     }
 
     fromHexString(hexString) {
