@@ -7,7 +7,7 @@ pipeline {
         stage('Deploy') {
             environment {
                 REMOTE_DIR = "/app/apps/blockchain-explorer"
-                SOURCE_FILES = "**/*.js, **/*.json, **/*.vue, **/*.html, **/.css, **/*.png, **/*.jpg, **/*.svg, **/*.jpeg, **/*.ico, Dockerfile, docker-compose.yml, .dockerignore, **/*.ttf"
+                SOURCE_FILES = "**/*.js, **/*.json, **/*.vue, **/*.html, **/.css, **/*.png, **/*.jpg, **/*.svg, **/*.jpeg, **/*.ico, Dockerfile, docker-compose.yml, .dockerignore, **/*.ttf, **/*.conf"
             }
             steps {
                 echo "Deploying Blockchain Explorer"
