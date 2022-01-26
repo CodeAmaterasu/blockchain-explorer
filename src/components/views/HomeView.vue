@@ -115,6 +115,11 @@ export default {
         this.searchedAddress = this.searchFieldValue
         this.isSearch = true
         this.title = "Related Transactions"
+        const blockService = new BlockService()
+        blockService.getBlocks(this.searchedAddress).then(response => {
+          console.log(response.data)
+          this.unprocessedBlocks = response.data
+        })
       } else {
         this.searchedAddress = ""
         this.isSearch = false
