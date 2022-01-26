@@ -113,17 +113,6 @@ export default {
     console.log(this.balances);
   },
   methods: {
-    searchAddress() {
-      if (this.searchFieldValue) {
-        this.searchedAddress = this.searchFieldValue
-        this.isSearch = true
-        this.title = "Related Transactions"
-      } else {
-        this.searchedAddress = ""
-        this.isSearch = false
-        this.title = "Unprocessed Blocks"
-      }
-    },
     getBalance(publicKey, walletName) {
       this.walletService.getBalance(publicKey).then(data => {
         this.balances[walletName] = {
