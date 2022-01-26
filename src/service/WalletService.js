@@ -16,6 +16,13 @@ class WalletService {
             wallet_address: walletAddress
         }).then(response => response.data)
     }
+
+    getFunds(walletAddress, amount) {
+        return axios.post('http://danilojakob.ch:10300/api/get_funds', {
+            wallet_address: walletAddress,
+            amount: amount
+        })
+    }
 }
 
 export default WalletService

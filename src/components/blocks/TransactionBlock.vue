@@ -51,8 +51,6 @@ export default {
   margin-right: 20px;
 }
 
-.amount-item {
-}
 
 .overflow-ellipses {
   white-space: nowrap;

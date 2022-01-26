@@ -1,8 +1,8 @@
 <template>
-  <div className="whiteboard-site">
-    <div className="content-container background-color-white box-shadow">
-      <div className="inner-whiteboard">
-        <div className="titlebar-container">
+  <div class="whiteboard-site">
+    <div class="content-container background-color-white box-shadow">
+      <div class="inner-whiteboard">
+        <div class="titlebar-container">
           <div>
             <TitleLabel class="left-alignment" text="Wallets"/>
           </div>
@@ -12,8 +12,8 @@
           </div>
         </div>
         <div id="transaction-container">
-          <div className="transaction-element" v-for="wallet in this.wallets" :key="wallet.name">
-            <WalletBlock class="box-shadow" :name="wallet.name" :balance="this.balances[wallet.name].balance"/>
+          <div class="transaction-element" v-for="wallet in this.wallets" :key="wallet.name">
+            <WalletBlock class="box-shadow" :name="wallet.name" :address="wallet.publicKey" :balance="balances[wallet.name].balance.toString()"/>
           </div>
         </div>
       </div>
@@ -105,12 +105,7 @@ export default {
     this.wallets = JSON.parse(localStorage.getItem('wallets'))
     this.walletService = new WalletService()
 
-    console.log(this.wallets)
-
-    for(let wallet of this.wallets) {
-      this.getBalance(wallet.publicKey, wallet.name)
-    }
-    console.log(this.balances);
+    this.loadWallets()
   },
   methods: {
     getBalance(publicKey, walletName) {
@@ -119,6 +114,11 @@ export default {
           balance: data.balance
         }
       })
+    },
+    loadWallets() {
+      for(let wallet of this.wallets) {
+        this.getBalance(wallet.publicKey, wallet.name)
+      }
     },
     createNewWallet() {
       const walletService = new WalletService()
@@ -136,6 +136,7 @@ export default {
         })
         this.wallets = wallets
         localStorage.setItem('wallets', JSON.stringify(wallets))
+        this.loadWallets()
       })
     },
     showImportModal() {
@@ -185,10 +186,6 @@ export default {
   justify-content: flex-end;
 }
 
-.small-label {
-  font-size: 14px;
-}
-
 #cancel-button {
   margin-right: 25px;
 }
@@ -197,11 +194,6 @@ export default {
   width: 1160px;
   margin-top: 90px;
   margin-bottom: 30px;
-}
-
-.test {
-  width: 100px;
-  height: 100px;
 }
 
 .content-container {
@@ -214,12 +206,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding-top: 20px;
-}
-
-.search-container {
-  margin-top: 90px;
-  margin-bottom: 30px;
-  width: 100%;
 }
 
 #transaction-container {
