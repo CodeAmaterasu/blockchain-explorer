@@ -20,5 +20,11 @@ npm run build
 npm run lint
 ```
 
+## Run as Docker Container
+Install Docker for the respective OS, then run following command:
+```
+sudo docker-compose up --build
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
