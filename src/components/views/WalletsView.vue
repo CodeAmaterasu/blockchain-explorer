@@ -13,7 +13,7 @@
         </div>
         <div id="transaction-container">
           <div class="transaction-element" v-for="wallet in this.wallets" :key="wallet.name">
-            <WalletBlock class="box-shadow" :name="wallet.name" :address="wallet.publicKey" :balance="balances[wallet.name].balance.toString()"/>
+            <WalletBlock class="box-shadow" :name="wallet.name" :address="wallet.publicKey" :balance="wallet.balance.toString()"/>
           </div>
         </div>
       </div>
@@ -77,6 +77,8 @@ import SubmitButton from "../base/buttons/SubmitButton";
 import CancelButton from "@/components/base/buttons/CancelButton";
 import ModalBox from "@/components/base/ModalBox";
 import WalletService from "@/service/WalletService";
+import LocalStorageHelper from "@/LocalStorageHelper";
+import Wallet from "@/data/Wallet";
 
 export default {
   name: "WalletsView",
@@ -89,68 +91,68 @@ export default {
   },
   data() {
     return {
-      isSearch: false,
-      title: "Unprocessed Blocks",
-      searchFieldValue: "",
-      searchedAddress: "",
       isNewWalletModalVisible: false,
       isImportModalVisible: false,
       newWalletName: "",
       wallets: [],
-      walletService: WalletService,
-      balances: []
+      storageWallets: [],
+
+      walletService: new WalletService(),
+      localStorageHelper: new LocalStorageHelper()
     }
   },
   created() {
-    this.wallets = JSON.parse(localStorage.getItem('wallets'))
-    this.walletService = new WalletService()
-
-    this.loadWallets()
+    this.getWalletsBalance()
   },
   methods: {
-    getBalance(publicKey, walletName) {
-      this.walletService.getBalance(publicKey).then(data => {
-        this.balances[walletName] = {
-          balance: data.balance
-        }
-      })
-    },
-    loadWallets() {
-      for(let wallet of this.wallets) {
-        this.getBalance(wallet.publicKey, wallet.name)
-      }
-    },
-    createNewWallet() {
-      const walletService = new WalletService()
-      this.isNewWalletModalVisible = false
-      if (localStorage.getItem('wallets') == null) {
-        localStorage.setItem('wallets', JSON.stringify([]))
-      }
-      let wallets = JSON.parse(localStorage.getItem('wallets'))
+    async getWalletsBalance() {
+      this.wallets = []
+      this.storageWallets = this.localStorageHelper.getItem('wallets', true, [])
 
-      walletService.create(this.newWalletName).then( response => {
-        wallets.push({
-          name: response.data.wallet_name,
-          publicKey: response.data.public_key,
-          privateKey: response.data.private_key,
+      for (const wallet of this.storageWallets) {
+
+        await this.walletService.getBalance(wallet.publicKey).then(data => {
+          let fullWallet = new Wallet(wallet.name, wallet.publicKey, wallet.privateKey, data.balance)
+          this.wallets.push(fullWallet)
         })
-        this.wallets = wallets
-        localStorage.setItem('wallets', JSON.stringify(wallets))
-        this.loadWallets()
+      }
+    },
+
+    createNewWallet() {
+
+      this.storageWallets = this.localStorageHelper.getItem('wallets', true, [])
+      this.walletService.create(this.newWalletName).then( response => {
+        const newWallet = new Wallet(response.data.wallet_name, response.data.public_key, response.data.private_key, 0)
+        this.storageWallets.push(newWallet)
+
+        this.localStorageHelper.setItem('wallets', this.storageWallets, true)
+
+        this.getWalletsBalance()
+        this.closeNewWalletModal()
+        this.ResetModalValues()
       })
     },
+
     showImportModal() {
       this.isImportModalVisible = true
     },
-    showNewWalletModal() {
-      this.isNewWalletModalVisible = true
-    },
+
     closeImportModal() {
       this.isImportModalVisible = false
     },
+
+    showNewWalletModal() {
+      this.isNewWalletModalVisible = true
+    },
+
     closeNewWalletModal() {
       this.isNewWalletModalVisible = false
-    }
+      this.ResetModalValues()
+    },
+
+    ResetModalValues() {
+      this.newWalletName = ""
+    },
   }
 }
 </script>
