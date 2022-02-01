@@ -27,10 +27,6 @@ export default {
             required: true
         },
         amount: {
-            type: Number,
-            required: true
-        },
-        signatur: {
             type: String,
             required: true
         }

@@ -60,8 +60,10 @@ export default {
   data() {
     return {
       isBalanceModalVisible: false,
-      amount: String,
-      balanceValue: String
+      amount: "",
+      balanceValue: "",
+
+      walletService: new WalletService()
     }
   },
   props: {
@@ -85,18 +87,27 @@ export default {
     openBalanceModal() {
       this.isBalanceModalVisible = true
     },
+
     closeModal() {
       this.isBalanceModalVisible = false
+      this.setModalDefaultValues()
     },
+
     sendBalance() {
       this.isBalanceModalVisible = false
-      let walletService = new WalletService()
-      walletService.getFunds(this.address, this.amount)
+      this.walletService.getFunds(this.address, this.amount)
       this.balanceValue = parseInt(this.balanceValue) + parseInt(this.amount)
+
+      this.setModalDefaultValues()
     },
+
     async copyAddress() {
       await navigator.clipboard.writeText(this.address)
-    }
+    },
+
+    setModalDefaultValues() {
+      this.amount = ""
+    },
   },
   computed: {
     nameText() {
