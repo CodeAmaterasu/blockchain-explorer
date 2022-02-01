@@ -140,14 +140,27 @@ export default {
 
     sendTransaction() {
       this.isModalVisible = false;
+      const privateKey = this.getPrivateFromPublic(this.selectedPublicKey)
 
       this.blockService.createBlock({
         origin: this.selectedPublicKey,
         destination: this.destination,
+        privateKey: privateKey,
         amount: this.amount
       })
 
       this.setModalDefaultValues()
+    },
+
+    getPrivateFromPublic(publicKey) {
+      const wallets = this.localStorageHelper.getItem('wallets', true, [])
+
+      for (const wallet of wallets) {
+        if (wallet.publicKey === publicKey) {
+          return wallet.privateKey;
+        }
+      }
+      return "";
     },
 
     closeModal() {

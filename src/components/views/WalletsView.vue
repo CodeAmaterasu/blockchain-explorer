@@ -78,7 +78,7 @@ import CancelButton from "@/components/base/buttons/CancelButton";
 import ModalBox from "@/components/base/ModalBox";
 import WalletService from "@/service/WalletService";
 import LocalStorageHelper from "@/LocalStorageHelper";
-import Wallet from "@/data/Wallet";
+import Wallet from "@/components/data/Wallet";
 
 export default {
   name: "WalletsView",
@@ -119,7 +119,6 @@ export default {
     },
 
     createNewWallet() {
-
       this.storageWallets = this.localStorageHelper.getItem('wallets', true, [])
       this.walletService.create(this.newWalletName).then( response => {
         const newWallet = new Wallet(response.data.wallet_name, response.data.public_key, response.data.private_key, 0)

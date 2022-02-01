@@ -5,7 +5,7 @@ class BlockService {
         let bitcoin = require('bitcoinjs-lib')
         let bitcoinMessage = require('bitcoinjs-message')
 
-        const keypair = bitcoin.ECPair.fromPrivateKey(this.fromHexString("b710c6602eb1555064613148eabbcbdcdd1ea5963813fb6c9474f2ce689e1dcc"));
+        const keypair = bitcoin.ECPair.fromPrivateKey(this.fromHexString(block.privateKey));
         const message = block.amount.toString();
         const signature = bitcoinMessage.sign(message, keypair.privateKey);
 
