@@ -18,7 +18,7 @@ class WalletService {
     }
 
     getFunds(walletAddress, amount) {
-        return axios.post('http://danilojakob.ch:10300/api/get_funds', {
+        return axios.post('https://blockchain-bank.danilojakob.ch/api/get_funds', {
             wallet_address: walletAddress,
             amount: amount
         })
