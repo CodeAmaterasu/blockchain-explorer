@@ -22,7 +22,7 @@
         </div>
         <div id="transaction-container">
           <div class="transaction-element" v-for="block in this.unprocessedBlocks" :key="block.signature">
-            <TransactionInfo class="box-shadow" :signatur="block.signature" :amount="block.amount" :to="block.destination" :from="block.origin" />
+            <TransactionInfo class="box-shadow" :signatur="block.signature" :amount="block.amount.toString()" :to="block.destination" :from="block.origin" />
           </div>
         </div>
       </div>
@@ -44,11 +44,11 @@
           </div>
           <div class="form-group form-margin">
             <label>Destination</label>
-            <input v-model="destination" type="text" class="form-control" placeholder="0.0">
+            <input v-model="destination" type="text" class="form-control" placeholder="YD7gTexLspnD3Zu+0eMgaJ3tyqEaLDEbuVVRzmMwXWhU4NaASyEkSa5yTidKj2KZ4vcu2sZYnT+sdmFhdrFb2w==">
           </div>
           <div class="form-group form-margin form-margin-bottom">
             <label>Amount</label>
-            <input v-model="amount" type="text" class="form-control" aria-describedby="emailHelp" placeholder="0.0">
+            <input v-model="amount" type="text" class="form-control" placeholder="0">
           </div>
         </div>
         <div id="action-container">
@@ -58,11 +58,9 @@
       </div>
     </template>
   </ModalBox>
-
 </template>
 
 <script>
-
 import TransactionInfo from '../blocks/TransactionBlock.vue'
 import TitleLabel from "../base/labels/TitleLabel";
 import CancelButton from "@/components/base/buttons/CancelButton";
@@ -71,10 +69,10 @@ import DefaultLabel from "../base/labels/DefaultLabel";
 import ModalBox from "@/components/base/ModalBox";
 import ChainService from "@/service/ChainService";
 import BlockService from "@/service/BlockService";
-
+import LocalStorageHelper from "@/LocalStorageHelper";
 
 export default {
-  name: "Navigation",
+  name: "HomeView",
   components: {
     DefaultLabel,
     SubmitButton,
@@ -92,22 +90,32 @@ export default {
       isModalVisible: false,
 
       wallets: [],
-      destination: String,
-      amount: String,
-      selectedPublicKey: String,
+      destination: "",
+      amount: "",
+      selectedPublicKey: "a",
+      unprocessedBlocks: [],
 
-      unprocessedBlocks: []
+      blockService: new BlockService(),
+      chainService: new ChainService(),
+      localStorageHelper: new LocalStorageHelper()
+    }
+  },
+  props: {
+    walletsRO: {
+      type: Array,
+      default: () => []
+    },
+    balancesRO: {
+      type: Array,
+      default: () => []
     }
   },
   created() {
-    let chainService = new ChainService()
-    let serviceResponse = chainService.getOpenChain()
-
-    serviceResponse.then(response => {
+    this.chainService.getOpenChain().then(response => {
         this.unprocessedBlocks = response.data.chain
     })
 
-    this.wallets = JSON.parse(localStorage.getItem('wallets'))
+    this.wallets = this.localStorageHelper.getItem('wallets', true, [])
   },
   methods: {
     searchAddress() {
@@ -115,9 +123,8 @@ export default {
         this.searchedAddress = this.searchFieldValue
         this.isSearch = true
         this.title = "Related Transactions"
-        const blockService = new BlockService()
-        blockService.getBlocks(this.searchedAddress).then(response => {
-          console.log(response.data)
+
+        this.blockService.getBlocks(this.searchedAddress).then(response => {
           this.unprocessedBlocks = response.data
         })
       } else {
@@ -126,24 +133,46 @@ export default {
         this.title = "Unprocessed Blocks"
       }
     },
+
     showModal() {
       this.isModalVisible = true;
     },
+
     sendTransaction() {
       this.isModalVisible = false;
-      const blockService = new BlockService()
-      blockService.createBlock({
+      const privateKey = this.getPrivateFromPublic(this.selectedPublicKey)
+
+      this.blockService.createBlock({
         origin: this.selectedPublicKey,
         destination: this.destination,
+        privateKey: privateKey,
         amount: this.amount
       })
-    },
-    getUnprocessedBlocks() {
 
+      this.setModalDefaultValues()
     },
+
+    getPrivateFromPublic(publicKey) {
+      const wallets = this.localStorageHelper.getItem('wallets', true, [])
+
+      for (const wallet of wallets) {
+        if (wallet.publicKey === publicKey) {
+          return wallet.privateKey;
+        }
+      }
+      return "";
+    },
+
     closeModal() {
       this.isModalVisible = false;
+      this.setModalDefaultValues()
     },
+
+    setModalDefaultValues() {
+      this.destination = ""
+      this.amount = ""
+    },
+
     onChange(value) {
       this.selectedPublicKey = value
     }
