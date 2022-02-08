@@ -1,13 +1,13 @@
 <template>
   <div id="nav" class="background-color-primary">
     <div id="logo-container">
-      <a href="/" @click="storeIndex('0')">
-        <ApplicationLogo />
-      </a>
+        <router-link tag="li" class="color-background no-underline"  to="/">
+          <ApplicationLogo />
+        </router-link>
     </div>
     <div id="nav-items">
-      <a href="/" :class="{selected : getSiteIndex === '0'}" @click="storeIndex('0')"><ul class="color-background nav-item">Home</ul></a>
-      <a href="/wallets" :class="{selected : getSiteIndex === '1'}" @click="storeIndex('1')"><ul class="color-background nav-item">Wallets</ul></a>
+      <router-link tag="li" class="color-background nav-item"  to="/">Home</router-link>
+      <router-link tag="li" class="color-background nav-item"  to="/wallets">Wallets</router-link>
     </div>
   </div>
 </template>
@@ -19,16 +19,6 @@ export default {
   name: "Navigation",
   components: {
     ApplicationLogo
-  },
-  methods: {
-    storeIndex(index) {
-      localStorage.setItem("siteIndex", index)
-    }
-  },
-  computed: {
-    getSiteIndex() {
-      return localStorage.getItem("siteIndex")
-    }
   }
 }
 </script>
@@ -46,13 +36,21 @@ export default {
 }
 .nav-item {
   font-family: "Poppins-SemiBold";
+  margin-left: 20px;
+}
+.nav-item:first-child {
+  margin-left: 30px;
+}
+.no-underline {
+  text-decoration: none !important;
+}
+a {
   margin: 0;
 }
 .nav-item:hover {
   color: #7ebab8;
 }
-
-.selected {
+.router-link-active {
   text-decoration: underline #F1F1F1;
 }
 </style>
