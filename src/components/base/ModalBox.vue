@@ -33,56 +33,15 @@ export default {
   display: flex;
   top: auto;
   left: auto;
-  width: 1170px;
+  width: 50%;
+  min-width: 300px;
+  max-width: 1100px;
   height: auto;
   flex-direction: column;
   border-radius: 10px;
   padding: 30px;
   text-align: left;
   margin-top: 180px;
-}
-
-.modal-header,
-.modal-footer {
-  padding: 15px;
-  display: flex;
-}
-
-.modal-header {
-  position: relative;
-  border-bottom: 1px solid #eeeeee;
-  color: #4AAE9B;
-  justify-content: space-between;
-}
-
-.modal-footer {
-  border-top: 1px solid #eeeeee;
-  flex-direction: column;
-}
-
-.modal-body {
-  position: relative;
-  padding: 20px 10px;
-}
-
-.btn-close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  border: none;
-  font-size: 20px;
-  padding: 10px;
-  cursor: pointer;
-  font-weight: bold;
-  color: #4AAE9B;
-  background: transparent;
-}
-
-.btn-green {
-  color: white;
-  background: #4AAE9B;
-  border: 1px solid #4AAE9B;
-  border-radius: 2px;
 }
 
 .modal-fade-enter,
