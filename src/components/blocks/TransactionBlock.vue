@@ -37,14 +37,16 @@ export default {
 <style scoped> 
 
 #container {
-    display: flex;
-    border-radius: 10px;
-    background: #E8E8E8;
-    padding: 15px 20px;
+  display: flex;
+  border-radius: 10px;
+  background: #E8E8E8;
+  padding: 15px 20px;
+  justify-content: space-between;
 }
 .from-item, .to-item {
-  width: 450px;
+  width: 40%;
   margin-right: 20px;
+  flex-grow: 2;
 }
 
 

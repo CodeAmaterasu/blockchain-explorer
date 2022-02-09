@@ -3,8 +3,8 @@
     <div class="name-item">
       <DefaultLabel class="overflow-ellipses" :text="nameText"/>
     </div>
-    <div class="address-item">
-      <svg @click="copyAddress" style="width:24px;height:24px" class="svg" viewBox="0 0 24 24">
+    <div class="address-item overflow-ellipses">
+      <svg @click="copyAddress" style="width:24px;height:24px; min-width: 24px; min-height: 24px" class="svg" viewBox="0 0 24 24">
         <path fill="currentColor" d="M4 7V21H18V23H4C2.9 23 2 22.1 2 21V7H4M20 3C21.1 3 22 3.9 22 5V17C22 18.1 21.1 19 20 19H8C6.9 19 6 18.1 6 17V5C6 3.9 6.9 3 8 3H11.18C11.6 1.84 12.7 1 14 1C15.3 1 16.4 1.84 16.82 3H20M14 3C13.45 3 13 3.45 13 4C13 4.55 13.45 5 14 5C14.55 5 15 4.55 15 4C15 3.45 14.55 3 14 3M10 7V5H8V17H20V5H18V7H10Z" />
       </svg>
       <DefaultLabel :text="addressText" id="address-label" class="overflow-ellipses"/>
@@ -35,7 +35,6 @@
         </div>
       </template>
     </ModalBox>
-
   </div>
 </template>
 
@@ -135,21 +134,28 @@ export default {
   border-radius: 10px;
   background: #E8E8E8;
   padding: 15px 20px;
+  justify-content: space-between;
 }
 
 .name-item {
-  width: 200px;
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
   margin-right: 20px;
 }
 
 .address-item {
-  width: 650px;
   margin-right: 20px;
   display: flex;
+  flex-shrink: 1;
 }
 
 .balance-item {
   display: flex;
+  justify-content: flex-start;
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
 }
 
 .svg {
@@ -169,6 +175,10 @@ p {
 
 #cancel-button {
   margin-right: 25px;
+}
+
+#address-label {
+  flex-shrink: 1;
 }
 
 </style>

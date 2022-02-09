@@ -20,5 +20,6 @@ export default {
   p {
     font-family: 'Poppins-Regular';
     font-size: 15px;
+    white-space: nowrap;
   }
 </style>

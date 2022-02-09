@@ -192,9 +192,11 @@ export default {
 }
 
 .whiteboard-site {
-  width: 1160px;
+  width: 80%;
   margin-top: 90px;
   margin-bottom: 30px;
+  max-width: 1160px;
+  min-width: 700px;
 }
 
 .content-container {
